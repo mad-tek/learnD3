@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 tutorial</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+</head>
+<body>
+  <script>
+    var dataArray = [5, 20, 40,60];
+    var width = 500;
+    var height = 500;
+    var widthScale = d3.scale.linear()
+      .domain([0, 60])
+      .range([0, width]);
+    var color = d3.scale.linear()
+      .domain([0, 60])
+      .range(['red','blue']);
+    var axis = d3.svg.axis()
+      .ticks(5)
+      .scale(widthScale);
+    var canvas = d3.select('body')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr('transform', 'translate(20, 0)')
+    var bars = canvas.selectAll('rect')
+      .data(dataArray)
+      .enter()
+        .append('rect')
+        .attr('width', function (data) {return widthScale(data);})
+        .attr('height', 50)
+        .attr('y', function(data, index){return index * 100;})
+        .attr('fill', function (data) {return color(data);});
+      canvas.append('g')
+      .attr('transform', 'translate(0,400)')
+      .call(axis);
+  </script>
+</body>
+</html>
